@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="ModuloESM.css">
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <div id="insertarDatos">
+                <label for="inpColor">Inserte tipo:</label>
+                <input type="text" name="inpColor" id="inpColor">
+                <button id="btnenviar">Enviar</button>
+            </div>
+            <div id="color">Color del tipo</div>
+        </div>
+        <div class="column">
+            <div id="listaTipos">
+                <ul>
+                    <li><strong>agua:</strong> <span style="color: blue;">blue</span></li>
+                    <li><strong>fuego:</strong> <span style="color: red;">red</span></li>
+                    <li><strong>planta:</strong> <span style="color: green;">green</span></li>
+                    <li><strong>electrico:</strong> <span style="color: yellow;">yellow</span></li>
+                    <li><strong>lucha:</strong> <span style="color: orange;">orange</span></li>
+                    <li><strong>psiquico:</strong> <span style="color: purple;">purple</span></li>
+                    <li><strong>tierra:</strong> <span style="color: brown;">brown</span></li>
+                    <li><strong>volador:</strong> <span style="color: lightblue;">lightblue</span></li>
+                    <li><strong>hielo:</strong> <span style="color: white;">white</span></li>
+                    <li><strong>veneno:</strong> <span style="color: purple;">purple</span></li>
+                    <li><strong>bicho:</strong> <span style="color: lightgreen;">lightgreen</span></li>
+                    <li><strong>normal:</strong> <span style="color: gray;">gray</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="module">
+/*import { obtenerColorTipo } from './prueba.js'; // Import the specific function from the module
+
+document.getElementById('btnenviar').addEventListener('click', function(){
+    const tipo = document.getElementById('inpColor').value;
+    document.getElementById('color').style.backgroundColor = obtenerColorTipo(tipo);
+}); */
+document.getElementById('btnenviar').addEventListener('click', function(){
+    import("./prueba.js").then(function(modulos){
+        const tipo = document.getElementById('inpColor').value; // Use .value to get the input value
+        document.getElementById('color').style.backgroundColor = modulos.obtenerColorTipo(tipo);
+    });
+});
+</script>
+</html>

@@ -1,0 +1,57 @@
+#color{
+    flex-grow: 1;
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black; 
+}
+/* Estilos para el contenedor principal */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+/* Estilos para las columnas */
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+/* Estilos para el div "insertarDatos" */
+#insertarDatos {
+    margin-bottom: 20px;
+}
+
+/* Estilos para el div "color" */
+#color {
+    
+}
+
+/* Estilos para el div "listaTipos" */
+#listaTipos {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+/* Estilos para la lista de tipos */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+ul li strong {
+    display: inline-block;
+    width: 100px;
+}
+
+/* Estilos adicionales según tus preferencias */

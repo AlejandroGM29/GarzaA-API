@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuck Norris Jokes</title>
+</head>
+<body>
+    <select name="categorias" id="categorias"></select>
+    <button id="apiButton">Cargar frase</button>
+    <div id="response">
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const apiButton = document.getElementById("apiButton");
+            const responseDiv = document.getElementById("response");
+            const selectCategorias = document.getElementById("categorias");
+                fetch("https://api.chucknorris.io/jokes/categories")
+                    .then(response => response.json())
+                    .then(data => {
+                        // Limpiar opciones anteriores en el select
+                        selectCategorias.innerHTML = '';
+
+                        // Agregar nuevas opciones al select
+                        data.forEach(element => {
+                            let option = document.createElement("option");
+                            option.value = element;
+                            option.text = element;
+                            selectCategorias.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error en la petición a la API:", error);
+                        responseDiv.textContent = "Error al hacer la petición a la API.";
+                    });
+            });
+    </script>
+    <script>
+            document.addEventListener("DOMContentLoaded", function() {
+            const apiButton = document.getElementById("apiButton");
+            const responseDiv = document.getElementById("response");
+            const selectCategorias = document.getElementById("categorias");
+            apiButton.addEventListener("click",function(){
+                fetch("https://api.chucknorris.io/jokes/search?query=" + selectCategorias.value )
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        // Limpiar opciones anteriores en el select
+                        var response = document.getElementById("response");
+                        console.log(data.result[0].value)
+                        response.textContent = data.result[0].value;
+                        
+
+                    
+                        var randomIndex = Math.floor(Math.random() * data.result.length);
+                        response.textContent = data.result[randomIndex].value;
+                           
+                    })
+                    .catch(error => {
+                        console.error("Error en la petición a la API:", error);
+                        responseDiv.textContent = "Error al hacer la petición a la API.";
+                    });
+            })})
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botón de API</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <header id="Nombre"></header>
+   
+    <div id="response"></div>
+    <button id="apiButton">Hacer Petición a la API Fetch</button>
+    <button id="apiButtonAsync">Hacer Petición a la async</button>
+    <button id="apiButtonAxios">Hacer Petición Axios</button>
+    <button id="apiButtonJQuery">Hacer Petición jQuery</button>
+    <button id="apiButtonXHTTP">Hacer Petición xhttp</button>
+    <div>hola mundo</div>
+</body>
+</html>  
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const apiButtonAxios = document.getElementById("apiButtonAxios");
+    const apiButton = document.getElementById("apiButton");
+    const responseDiv = document.getElementById("response");
+    const nombreHeader = document.getElementById("Nombre");
+    
+    apiButtonAxios.addEventListener("click", function() {
+        // Realizar la petición a la API utilizando Axios
+        axios.get("https://pokeapi.co/api/v2/pokemon/bulbasaur")
+            .then(response => {
+                const data = response.data;
+                nombreHeader.textContent = '';
+                responseDiv.textContent = "";
+                // Manipular los datos de la respuesta de la API
+                console.log(data);
+                nombreHeader.textContent = data.species.name;
+                
+                for (var i = 0; i < 9; i++) {
+                    responseDiv.textContent += data.moves[i].move.name + " ";
+                }
+            })
+            .catch(error => {
+                console.error("Error en la petición a la API:", error);
+                responseDiv.textContent = "Error al hacer la petición a la API.";
+            });
+});
+    apiButton.addEventListener("click", function() {
+        // Realizar la petición a la API
+        fetch("https://pokeapi.co/api/v2/pokemon/bulbasaur")
+            .then(response => response.json())
+            .then(data => {
+                // Manipular los datos de la respuesta de la API
+                console.log(data)
+                nombreHeader.textContent = data.species.name
+                
+                for (var i = 0; i < 9; i++) {
+                    
+                    responseDiv.textContent += data.moves[i].move.name + " "
+                    }
+                
+            })
+            .catch(error => {
+                console.error("Error en la petición a la API:", error);
+                responseDiv.textContent = "Error al hacer la petición a la API.";
+            });
+    });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        const apiButtonJQuery = $("#apiButtonJQuery");
+        const responseDiv = $("#response");
+        const nombreHeader = $("#Nombre");
+
+        apiButtonJQuery.click(function() {
+            // Realizar la petición a la API utilizando jQuery
+            $.get("https://pokeapi.co/api/v2/pokemon/bulbasaur")
+                .done(function(data) {
+                    // Manipular los datos de la respuesta de la API
+                    console.log(data);
+                    nombreHeader.text(data.species.name);
+                    
+                    for (var i = 0; i < 9; i++) {
+                        responseDiv.append(data.moves[i].move.name + " ");
+                    }
+                })
+                .fail(function(error) {
+                    console.error("Error en la petición a la API:", error);
+                    responseDiv.text("Error al hacer la petición a la API.");
+                });
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", async function() {
+    const apiButton = document.getElementById("apiButtonAsync");
+    const responseDiv = document.getElementById("response");
+    const nombreHeader = document.getElementById("Nombre");
+
+    apiButton.addEventListener("click", async function() {
+        try {
+            const response = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
+            const data = await response.json();
+            
+            console.log(data);
+            nombreHeader.textContent = data.species.name;
+            
+            
+                responseDiv.textContent += data.moves[0].move.name + " ";
+            
+        } catch (error) {
+            console.error("Error en la petición a la API:", error);
+            responseDiv.textContent = "Error al hacer la petición a la API.";
+        }
+    });
+});
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const apiButtonXHTTP = document.getElementById("apiButtonXHTTP");
+    const responseDiv = document.getElementById("response");
+    const nombreHeader = document.getElementById("Nombre");
+
+    apiButtonXHTTP.addEventListener("click", function() {
+        const xhttp = new XMLHttpRequest();
+        
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState === 4) {
+                if (xhttp.status === 200) {
+                    const data = JSON.parse(xhttp.responseText);
+                    console.log(data);
+                    
+                    nombreHeader.textContent = data.species.name;
+                    
+                    for (var i = 0; i < 9; i++) {
+                        responseDiv.textContent += data.moves[i].move.name + " ";
+                    }
+                } else {
+                    console.error("Error en la petición a la API:", xhttp.statusText);
+                    responseDiv.textContent = "Error al hacer la petición a la API.";
+                }
+            }
+        };
+        
+        xhttp.open("GET", "https://pokeapi.co/api/v2/pokemon/bulbasaur", true);
+        xhttp.send();
+    });
+});
+</script>

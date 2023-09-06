@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <header id="cabecera">
+        <div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg" alt="" id="logopkm">
+            <select class="datosCabecera" name="selectCategorias" id="selectCategorias"></select>
+            <button class="datosCabecera" id="btnMostrar">mostrar datos</button>
+        </div>
+    </header>
+    <div class="informacion">
+        <img src="" alt="" class="imgPokemon", id="imgPokemon">
+        <div class="info" id="info">
+            <h1 id="number">No#</h1>
+            <h2 id="Nombre">Nombre</h2>
+            <div>
+                <div>
+                    <h2 id="Tipe">Tipo</h4>
+                </div>
+            </div>
+            <h3 id="Peso">Peso:</h3>
+            <div class="ataques">
+                <h2 id="atq1" class="atq">atq1</h2>
+                <h2 id="atq2" class="atq">atq2</h2>
+                <h2 id="atq3" class="atq">atq3</h2>
+                <h2 id="atq4" class="atq">atq4</h2>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const responseDiv = document.getElementById("response");
+        const selectCategorias = document.getElementById("selectCategorias");
+            fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    // Limpiar opciones anteriores en el select
+                    selectCategorias.innerHTML = '';
+
+                    // Agregar nuevas opciones al select
+                    data.results.forEach(element => {
+                        let option = document.createElement("option");
+                        option.value = element.name;
+                        option.text = element.name;
+                        selectCategorias.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error en la petición a la API:", error);
+                    responseDiv.textContent = "Error al hacer la petición a la API.";
+                });
+        });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tiposDePokemon = {
+            "water": "blue",
+            "fire": "red",
+            "grass": "green",
+            "electric": "yellow",
+            "fighting": "orange",
+            "psychic": "purple",
+            "ground": "brown",
+            "flying": "lightblue",
+            "ice": "white",
+            "poison": "purple",
+            "bug": "lightgreen",
+            "normal": "gray"
+    };
+    const originalNumberText = document.getElementById("number").textContent;
+    const originalNombreText = document.getElementById("Nombre").textContent;
+    const originalTipoText = document.getElementById("Tipe").textContent;
+    const originalPesoText = document.getElementById("Peso").textContent;
+    const originalAtq1Text = document.getElementById("atq1").textContent;
+    const originalAtq2Text = document.getElementById("atq2").textContent;
+    const originalAtq3Text = document.getElementById("atq3").textContent;
+    const originalAtq4Text = document.getElementById("atq4").textContent;
+        const responseDiv = document.getElementById("response");
+        const infoDiv = document.getElementById("info")
+        const selectCategorias = document.getElementById("selectCategorias");
+        const btnMostrar = document.getElementById("btnMostrar");
+        btnMostrar.addEventListener("click", function(){
+            fetch("https://pokeapi.co/api/v2/pokemon/"+selectCategorias.value)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("number").textContent = originalNumberText;
+                    document.getElementById("Nombre").textContent = originalNombreText;
+                    document.getElementById("Tipe").textContent = originalTipoText;
+                    document.getElementById("Peso").textContent = originalPesoText;
+                    document.getElementById("atq1").textContent = originalAtq1Text;
+                    document.getElementById("atq2").textContent = originalAtq2Text;
+                    document.getElementById("atq3").textContent = originalAtq3Text;
+                    document.getElementById("atq4").textContent = originalAtq4Text;
+                    console.log(data)
+                    let img = document.getElementById("imgPokemon")
+                    img.src = data.sprites.front_default
+                    let id  = document.getElementById("number")
+                    id.textContent += " "+ data.id;
+                    let nombre = document.getElementById("Nombre")
+                    nombre.textContent +=  " "+ data.name;
+                    let Tipo = document.getElementById("Tipe")
+                    Tipo.textContent +=  " "+ data.types[0].type.name;
+
+                    let Peso = document.getElementById("Peso")
+                    Peso.textContent +=  " " + data.weight;
+                    var randomMoves = [];
+
+                    while (randomMoves.length < 4) {
+                        var randomIndex = Math.floor(Math.random() * data.moves.length);
+                        if (!randomMoves.includes(randomIndex)) {
+                            randomMoves.push(randomIndex);
+                        }
+                    }
+                    let atq1 = document.getElementById("atq1")
+                    let atq2 = document.getElementById("atq2")
+                    let atq3 = document.getElementById("atq3")
+                    let atq4 = document.getElementById("atq4")
+                    atq1.textContent = data.moves[randomMoves[0]].move.name
+                    atq2.textContent = data.moves[randomMoves[1]].move.name
+                    atq3.textContent = data.moves[randomMoves[2]].move.name
+                    atq4.textContent = data.moves[randomMoves[3]].move.name
+                    console.log([data.types[0].type.name])
+                    infoDiv.style.backgroundColor = tiposDePokemon[data.types[0].type.name]                  
+                })
+                .catch(error => {
+                    console.error("Error en la petición a la API:", error);
+                    responseDiv.textContent = "Error al hacer la petición a la API.";
+                });
+        })
+            
+        });
+</script>
+</html>
