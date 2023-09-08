@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 
-
 app.get("/alumnos", (req, res) => {
     res.json({ respuesta: "contestando a petición GET en la ruta de alumnos" });
  });
