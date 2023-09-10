@@ -9,4 +9,3 @@ let servidor = http.createServer((req, res) => {
 servidor.listen(8080,()=>{
     console.log("Servidor Node-Http escuchando en puerto 8080")
 });
-//instalar mysql 2
