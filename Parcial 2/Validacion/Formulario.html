@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario</title>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <div id="divForm1">
+      <form
+        id="myForm"
+        enctype="application/x-www-form-urlencoded"
+        action="http://localhost:8080/api/subir"
+        method="post"
+      >
+        <label for="correo">correo</label>
+        <input type="email" id="correo" name="correo" />
+
+        <label for="edad">edad</label>
+        <input type="text" id="edad" name="edad" />
+
+        <button type="submit">Enviar Form</button>
+      </form>
+      
+      <button id="enviarJS">enviar JS</button>
+      
+    </div>
+
+    <script>
+      const form = document.getElementById("myForm");
+      const js = document.getElementById("enviarJS");
+
+      js.addEventListener("click", async () => {
+        const formData = new FormData(form);
+        console.log("Datos del formulario:");
+        formData.forEach(function (value, key) {
+          console.log(key, value);
+        });
+
+        try {
+          const requestOptions = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams(formData),
+          };
+
+          const response = await fetch(
+            "http://localhost:8080/api/acciones",
+            requestOptions
+          );
+
+          if (response.ok) {
+            console.log("Formulario enviado correctamente.");
+          } else {
+            console.error(
+              "Error al enviar el formulario. Estado de respuesta:",
+              response.status
+            );
+          }
+        } catch (error) {
+          console.error("Error de red:", error);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario</title>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <div id="divForm1">
+      <form
+        id="myForm"
+        enctype="application/x-www-form-urlencoded"
+        action="http://localhost:8080/api/acciones"
+        method="post"
+      >
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" />
+
+        <label for="descripcion">Descripción</label>
+        <input type="text" id="descripcion" name="descripcion" />
+
+        <label for="foto">Foto</label>
+        <input type="text" id="foto" name="foto" />
+
+        <label for="audio">Audio</label>
+        <input type="text" id="audio" name="audio" />
+
+        <button type="submit">Enviar Form</button>
+      </form>
+      
+      <button id="enviarJS">enviar JS</button>
+      
+    </div>
+
+    <div id="divform2">
+      <form
+      id="myFormArchivo"
+      action="http://localhost:8080/archivo/"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <label for="archivo">archivo</label>
+      <input type="file" id="archivo" name="archivo" />
+      <button type="submit">Enviar Form</button>
+    </form>
+    </div>
+    <script>
+      const form = document.getElementById("myForm");
+      const js = document.getElementById("enviarJS");
+
+      js.addEventListener("click", async () => {
+        const formData = new FormData(form);
+        console.log("Datos del formulario:");
+        formData.forEach(function (value, key) {
+          console.log(key, value);
+        });
+
+        try {
+          const requestOptions = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams(formData),
+          };
+
+          const response = await fetch(
+            "http://localhost:8080/api/acciones",
+            requestOptions
+          );
+
+          if (response.ok) {
+            console.log("Formulario enviado correctamente.");
+          } else {
+            console.error(
+              "Error al enviar el formulario. Estado de respuesta:",
+              response.status
+            );
+          }
+        } catch (error) {
+          console.error("Error de red:", error);
+        }
+      });
+    </script>
+  </body>
+</html>
