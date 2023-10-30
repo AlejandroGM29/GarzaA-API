@@ -1,0 +1,22 @@
+{
+    "source": {
+      "include": ["Parcial 2", "README.md"],
+      "exclude": ["node_modules"],
+      "includePattern": ".+\\.js(doc|x)?$",
+      "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "plugins": ["plugins/markdown"],
+    "templates": {
+        "theme": "node_modules/clean-jsdoc-theme",
+      "cleverLinks": true,
+      "monospaceLinks": true,
+      "default": {
+        "outputSourceFiles": true
+      }
+    },
+    "opts": {
+      "recurse": true,
+      "destination": "./docs"
+    }
+  }
+  
