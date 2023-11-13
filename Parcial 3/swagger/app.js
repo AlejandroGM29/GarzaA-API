@@ -8,30 +8,37 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
+import fs from 'fs'
+import {SwaggerTheme} from 'swagger-themes';
+
+
+const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const theme = new SwaggerTheme('v3');
+const def = fs.readFileSync(path.join(__dirname, 'swagger.json'), { encoding: 'utf-8' });
+const definition = JSON.parse(def);
+
+const options = {
+  explorer: true,
+  customCss: theme.getBuffer('dark')
+};
+
+console.log(definition);
+
 const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'API',
-      version: '1.0.0',
-      description: 'API para manejar los datos de un usuario',
-    },
-    servers: [
-      { url: "http://localhost:3000" }
-    ],
-  },
+  definition,
   apis: [
-    path.join(__dirname, "app.js"),            // Ruta al archivo app.js (ruta raíz)
-    path.join(__dirname, "./routes/user.route.js") // Ruta al archivo user.route.js
+    path.join(__dirname, "app.js"),            
+    path.join(__dirname, "./routes/user.route.js")
   ],
 };
 
+// Puedes usar ahora la variable swaggerOptions según sea necesario.
 
-const app = express();
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -55,13 +62,13 @@ app.use(
  *         description: Retorna un objeto JSON con un mensaje de bienvenida.
  */
 app.get("/", async (req, res) => {
-  res.json({ message: "hola" });
+  res.json(swaggerDocs);
 });
 
 app.use("/users", user);
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs));
+app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs,options));
 
 app.use((req, res, next) => {
     res.status(404).json({
