@@ -10,6 +10,8 @@ import path from 'path';
 import { dirname } from 'path';
 import fs from 'fs'
 import {SwaggerTheme} from 'swagger-themes';
+import redoc from 'redoc-express'
+import OpenAPISnippet from 'openapi-snippet';
 
 
 const app = express();
@@ -17,21 +19,23 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const ContenidoReadme = fs.readFileSync(path.join(__dirname)+'/README.md',{encoding:'utf8',flag:'r'})
+
 const theme = new SwaggerTheme('v3');
 const def = fs.readFileSync(path.join(__dirname, 'swagger.json'), { encoding: 'utf-8' });
 const definition = JSON.parse(def);
-
+definition.info.description=ContenidoReadme;
 const options = {
   explorer: true,
   customCss: theme.getBuffer('dark')
 };
+let redocTheme_objeto = JSON.parse(def)
 
 console.log(definition);
 
 const swaggerOptions = {
   definition,
-  apis: [
-    path.join(__dirname, "app.js"),            
+  apis: [         
     path.join(__dirname, "./routes/user.route.js")
   ],
 };
@@ -69,6 +73,33 @@ app.use("/users", user);
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs,options));
+app.get(
+  '/redocs',
+  redoc({
+    title: 'API Docs',
+    specUrl: '/',
+    nonce: '', // <= it is optional,we can omit this key and value
+    // we are now start supporting the redocOptions object
+    // you can omit the options object if you don't need it
+    // https://redocly.com/docs/api-reference-docs/configuration/functionality/
+    redocOptions: {
+      theme: redocTheme_objeto
+    }
+  })
+);
+
+const openApi = swaggerDocs // Open API document
+const targets = ['node_unirest', 'c'] // array of targets for code snippets. See list below...
+
+try {
+  // either, get snippets for ALL endpoints:
+  const results = OpenAPISnippet.getSnippets(openApi, targets) // results is now array of snippets, see "Output" below.
+
+  // ...or, get snippets for a single endpoint:
+  const results2 = OpenAPISnippet.getEndpointSnippets(openApi, '/users/{user-id}/relationship', 'get', targets)
+} catch (err) {
+  // do something with potential errors...
+}
 
 app.use((req, res, next) => {
     res.status(404).json({
