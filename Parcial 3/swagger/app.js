@@ -69,6 +69,11 @@ app.get("/", async (req, res) => {
   res.json(swaggerDocs);
 });
 
+
+app.get("/prueba" ,(req,res) =>{
+  res.status(200).json({message:"hola"})
+})
+
 app.use("/users", user);
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);

@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "chai": "^4.3.10",
+    "chai-http": "^4.4.0",
     "clean-jsdoc-theme": "^4.2.14",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -17,20 +19,30 @@
     "nodemon": "^3.0.1",
     "openapi-snippet": "^0.14.0",
     "redoc-express": "^2.1.0",
+    "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-themes": "^1.2.30",
     "swagger-ui-express": "^5.0.0"
   },
   "name": "garzaa-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./Parcial 3/swagger super test/index.js",
   "type": "module",
   "scripts": {
     "docs": "jsdoc -c jsdoc.json",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "En esta aplicación, implementamos la autenticación de usuarios utilizando JSON Web Tokens (JWT). Este tutorial te guiará a través del proceso de inicio de sesión y acceso a rutas protegidas utilizando tokens JWT.",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  }
 }
