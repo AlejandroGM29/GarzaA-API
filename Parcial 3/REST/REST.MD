@@ -132,3 +132,49 @@ En la arquitectura REST, el uso adecuado de HTTP es esencial para garantizar la 
 Supongamos una aplicación de gestión de tareas. Para obtener la lista de tareas, se utilizaría un método GET en la URI "https://api.tareas.com/tareas". Para agregar una nueva tarea, se enviaría una solicitud POST a la misma URI. Si se desea actualizar una tarea específica, se utilizaría el método PUT o PATCH en la URI correspondiente.
 
 En resumen, el uso correcto de HTTP en REST es fundamental para establecer una comunicación clara y eficiente entre clientes y servidores. Al seguir estos estándares, se promueve la coherencia, la interoperabilidad y una mejor comprensión de las operaciones dentro del sistema.
+
+**HATEOAS (Hipertexto como motor del estado de la aplicación):**
+
+El principio de HATEOAS es fundamental en la arquitectura REST y aboga por proporcionar información a través de hipervínculos dentro de las representaciones. Esto significa que, además de los datos solicitados, el servidor también envía enlaces a otros recursos relacionados y las acciones que el cliente puede realizar. Esto permite a los clientes navegar dinámicamente por la aplicación, descubriendo funcionalidades y recursos a medida que interactúan.
+
+Ejemplo práctico:
+
+Supongamos una API de comercio electrónico que devuelve los detalles de un producto. Junto con la información del producto, el servidor podría incluir enlaces a la categoría del producto, productos relacionados, reseñas y la opción de agregar el producto al carrito. Estos enlaces dinámicos permiten al cliente explorar y realizar acciones adicionales sin depender de un conocimiento previo de la API.
+
+**Seguridad en REST:**
+
+Asegurar las comunicaciones entre el cliente y el servidor es esencial en REST. Aquí hay algunas prácticas recomendadas:
+
+- **Autenticación:** Utiliza mecanismos seguros de autenticación, como tokens de acceso o certificados, para verificar la identidad del cliente.
+- **Autorización:** Implementa controles de acceso adecuados para garantizar que los clientes solo accedan a los recursos y realicen operaciones para los cuales están autorizados.
+- **HTTPS:** Utiliza HTTPS para cifrar las comunicaciones y proteger la confidencialidad de los datos transmitidos.
+- **Gestión de Tokens:** Renueva y gestiona adecuadamente los tokens de acceso para evitar el acceso no autorizado.
+
+**Formatos de Representación:**
+
+REST permite utilizar varios formatos de representación como JSON, XML, HTML, entre otros. La elección del formato puede afectar la eficiencia y la interoperabilidad. Por ejemplo:
+
+- **JSON:** Ligero y fácil de leer, preferido en aplicaciones web y móviles.
+- **XML:** Estructurado y compatible con esquemas, utilizado en entornos donde se requiere una descripción detallada de datos.
+- **HTML:** Puede ser utilizado para representar recursos de manera legible para humanos.
+
+La elección dependerá de los requisitos específicos de la aplicación y de la eficiencia en la transmisión y procesamiento de datos.
+
+**Versionamiento de la API:**
+
+Manejar el versionamiento de la API es crucial para permitir cambios sin afectar a los clientes existentes. Algunas estrategias incluyen:
+
+- **Versionamiento en la URI:** Incluir el número de versión en la URI de la API (por ejemplo, "/api/v1/recurso").
+- **Versionamiento mediante encabezados:** Especificar la versión en los encabezados de la solicitud.
+- **Negociación de contenido:** Utilizar encabezados de aceptación para permitir a los clientes solicitar una versión específica.
+
+La elección dependerá de la complejidad y las necesidades del proyecto.
+
+**Casos Prácticos:**
+
+Ejemplos específicos pueden ilustrar cómo se aplican estos principios en situaciones del mundo real. Por ejemplo:
+
+- **Consulta de Productos:** Una solicitud GET a "/api/productos" podría devolver una lista de productos con enlaces a detalles individuales y acciones como agregar al carrito.
+- **Autenticación:** Una solicitud POST a "/api/login" podría devolver un token de acceso para autorizar solicitudes subsiguientes.
+
+Estos casos prácticos demuestran cómo los principios de REST se traducen en acciones concretas en el desarrollo de API.
