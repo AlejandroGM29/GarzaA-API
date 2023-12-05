@@ -9,7 +9,7 @@ import OpenAPISnippet from 'openapi-snippet';
     try {
         // either, get snippets for ALL endpoints:
        const results2 = OpenAPISnippet.getEndpointSnippets(openApi, '/users/login', 'post', targets)
-        console.table(results2.description.description)
+        console.log(results2.description.description)
         
       } catch (err) {
         console.log("error: " +err)
