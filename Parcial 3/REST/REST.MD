@@ -31,3 +31,34 @@ REST proporciona un conjunto de restricciones arquitectónicas que, cuando se ap
 
 Al mantener esta separación clara entre el cliente y el servidor, se logra una arquitectura más flexible y fácil de mantener. Cambios en la interfaz de usuario no afectan la lógica del servidor, y viceversa. Además, permite el desarrollo paralelo de estas dos partes del sistema, facilitando la colaboración en equipos grandes.
 
+**Sin estado (stateless):**
+
+Este principio en la arquitectura REST implica que la comunicación entre el cliente y el servidor debe ser sin estado. Esencialmente, cada solicitud del cliente al servidor se trata de manera independiente y no se almacena información sobre el estado del cliente entre peticiones. Cada solicitud debe contener toda la información necesaria para ser procesada, lo que facilita la gestión y escalabilidad del sistema.
+
+**Características clave del principio de sin estado:**
+
+1. **Independencia de Solicitudes:**
+   - Cada solicitud del cliente se considera como una entidad independiente y autónoma.
+   - No hay dependencia de solicitudes anteriores, lo que simplifica la lógica de procesamiento en el servidor.
+
+2. **Simplicidad en la Gestión del Estado:**
+   - El servidor no almacena información sobre el estado del cliente entre peticiones.
+   - Cada solicitud debe llevar consigo toda la información necesaria para ser comprendida y procesada.
+
+3. **Escalabilidad Mejorada:**
+   - La falta de dependencia del estado entre solicitudes simplifica la gestión y escala bien para manejar un gran número de solicitudes concurrentes.
+
+4. **Facilita la Tolerancia a Fallos:**
+   - Dado que cada solicitud es independiente, el sistema es más robusto ante posibles fallos, ya que no hay una dependencia significativa del estado del cliente.
+
+**Beneficios de un Enfoque Stateless:**
+
+- **Escalabilidad Simplificada:** Al no tener que mantener el estado del cliente entre solicitudes, la arquitectura es más fácilmente escalable.
+
+- **Facilita la Tolerancia a Fallos:** La independencia de solicitudes permite que el sistema sea más resistente a fallos, ya que cada solicitud es autónoma.
+
+- **Simplicidad en el Desarrollo y Mantenimiento:** La falta de dependencia de estado entre solicitudes simplifica el desarrollo y mantenimiento del sistema.
+
+- **Mejora en el Rendimiento:** La eliminación de la necesidad de gestionar y mantener el estado del cliente entre solicitudes puede mejorar el rendimiento general del sistema.
+
+Al seguir el principio de sin estado, la arquitectura REST busca optimizar la eficiencia y la simplicidad, lo que resulta en sistemas web flexibles y fáciles de mantener.
