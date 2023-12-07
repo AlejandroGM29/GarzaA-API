@@ -1,7 +1,11 @@
 import express from "express";
 import cors from "cors";
 
-import user from "./routes/user.route.js";
+import user from "./routes/users.route.js";
+import valoraciones from "./routes/valoraciones.route.js";
+import juegos from "./routes/juegos.route.js";
+
+
 import session from "express-session";
 
 import swaggerUI from 'swagger-ui-express';
@@ -14,8 +18,6 @@ import fs from 'fs'
 
 import {SwaggerTheme} from 'swagger-themes';
 import redoc from 'redoc-express'
-import OpenAPISnippet from 'openapi-snippet';
-
 
 const app = express();
 
@@ -27,11 +29,13 @@ const ContenidoReadme = fs.readFileSync(path.join(__dirname)+'/README.md',{encod
 const theme = new SwaggerTheme('v3');
 const def = fs.readFileSync(path.join(__dirname, 'swagger.json'), { encoding: 'utf-8' });
 const definition = JSON.parse(def);
+
 definition.info.description=ContenidoReadme;
 const options = {
   explorer: true,
   customCss: theme.getBuffer('dark')
 };
+
 let redocTheme_objeto = JSON.parse(def)
 
 console.log(definition);
@@ -73,9 +77,9 @@ app.get("/", async (req, res) => {
 });
 
 
-app.get("/prueba" ,(req,res) =>{
-  res.status(200).json({message:"hola"})
-})
+app.use("/users", user);
+
+app.use("/users", user);
 
 app.use("/users", user);
 
@@ -99,15 +103,6 @@ app.get(
 const openApi = swaggerDocs // Open API document
 const targets = ['node_unirest', 'c'] // array of targets for code snippets. See list below...
 
-try {
-  // either, get snippets for ALL endpoints:
-  const results = OpenAPISnippet.getSnippets(openApi, targets) // results is now array of snippets, see "Output" below.
-
-  // ...or, get snippets for a single endpoint:
-  const results2 = OpenAPISnippet.getEndpointSnippets(openApi, '/users/{user-id}/relationship', 'get', targets)
-} catch (err) {
-  // do something with potential errors...
-}
 
 app.use((req, res, next) => {
     res.status(404).json({
