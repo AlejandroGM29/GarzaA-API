@@ -26,7 +26,7 @@
   },
   "name": "garzaa-api",
   "version": "1.0.0",
-  "main": "./Parcial 3/swagger super test/index.js",
+  "main": "./Parcial 3/API/index.js",
   "type": "module",
   "scripts": {
     "docs": "jsdoc -c jsdoc.json",

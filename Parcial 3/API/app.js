@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 
-import user from "./routes/users.route.js";
-import valoraciones from "./routes/valoraciones.route.js";
-import juegos from "./routes/juegos.route.js";
+import user from "./routes/users.routes.js";
+import valoraciones from "./routes/valoraciones.routes.js";
+import juegos from "./routes/juegos.routes.js";
 
 
 import session from "express-session";
@@ -20,7 +20,7 @@ import {SwaggerTheme} from 'swagger-themes';
 import redoc from 'redoc-express'
 
 const app = express();
-
+/*
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -46,7 +46,7 @@ const swaggerOptions = {
     path.join(__dirname, "./routes/user.route.js")
   ],
 };
-
+*/
 // Puedes usar ahora la variable swaggerOptions según sea necesario.
 
 
@@ -61,7 +61,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+/*
 /**
  * @swagger
  * /:
@@ -72,17 +72,19 @@ app.use(
  *       200:
  *         description: Retorna un objeto JSON con un mensaje de bienvenida.
  */
+/*
 app.get("/", async (req, res) => {
   res.json(swaggerDocs);
 });
 
+*/
 
 app.use("/users", user);
 
-app.use("/users", user);
+app.use("/juegos", juegos);
 
-app.use("/users", user);
-
+app.use("/valoraciones", valoraciones);
+/*
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs,options));
 app.get(
@@ -102,7 +104,7 @@ app.get(
 
 const openApi = swaggerDocs // Open API document
 const targets = ['node_unirest', 'c'] // array of targets for code snippets. See list below...
-
+*/
 
 app.use((req, res, next) => {
     res.status(404).json({

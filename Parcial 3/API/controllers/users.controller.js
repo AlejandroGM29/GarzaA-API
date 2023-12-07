@@ -11,7 +11,6 @@ function generateTokens(user) {
 
 export const createUser = async (req, res) => {
   console.log(req.body);
-
   if (req.session.loggedin !== true) {
     try {
       const { nombre, correo, contraseña } = req.body;
@@ -22,24 +21,29 @@ export const createUser = async (req, res) => {
         contraseña,
       ]);
 
-      if (existingUser.length > 0) {
+      if (existingUser.fieldCount > 0) {
         return res.status(400).json({
           error: "El usuario ya existe",
+          existingUser
         });
       }
+      // Hashear la contraseña con bcrypt
+      const contraseñaHash = await bcrypt.hash(contraseña, 12);
 
       // Crear el usuario utilizando el procedimiento almacenado
       const [rows] = await pool.query("CALL crearUsuario(?, ?, ?)", [
         nombre,
         correo,
-        contraseña,
+        contraseñaHash, // Utiliza la contraseña hasheada
       ]);
 
+
+
       res.send({
-        id: rows[0].insertId,
+        id: rows,
         nombre,
         correo,
-        contraseña, // Aquí debería ser 'contraseña' ya que es el nombre del campo en la base de datos
+        contraseña: contraseñaHash, // Utiliza la contraseña hasheada
       });
     } catch (error) {
       console.error("Error al crear el usuario:", error);
@@ -62,10 +66,10 @@ export const loginUser = async (req, res) => {
       contraseña,
     ]);
 
-    if (existingUser.length > 0) {
+    if (existingUser.fieldCount > 0) {
       const isMatch = await bcrypt.compare(
         contraseña,
-        existingUser[0].Contraseña
+        existingUser[0].password
       );
 
       if (!isMatch) {
@@ -74,20 +78,19 @@ export const loginUser = async (req, res) => {
         });
       } else {
         req.session.loggedin = true;
-        req.session.Id = existingUser[0].Id;
-        req.session.name = existingUser[0].Nombre;
-
+        req.session.Id = existingUser[0].idUsuario;
+        req.session.name = existingUser[0].nombre;
+        req.session.adamin = existingUser[0].admin
         // Aquí puedes seguir con el código para obtener grupos de administradores, etc.
 
         const user = {
-          Id: existingUser[0].Id,
-          nombre: existingUser[0].Nombre,
-          correo: existingUser[0].Correo,
+          Id: existingUser[0].idUsuario,
+          nombre: existingUser[0].nombre,
+          correo: existingUser[0].correo,
+          Admin: existingUser[0].admin
           // Puedes continuar con las propiedades necesarias del usuario
         };
-
         const { accessToken } = generateTokens(user);
-
         res.header("authorization", accessToken).status(200).json({
           message: "Inicio de sesión exitoso",
           user,
@@ -97,6 +100,7 @@ export const loginUser = async (req, res) => {
     } else {
       return res.status(400).json({
         error: "El usuario no existe",
+        existingUser
       });
     }
   } catch (error) {
