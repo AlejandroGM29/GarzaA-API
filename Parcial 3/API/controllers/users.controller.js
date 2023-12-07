@@ -16,15 +16,13 @@ export const createUser = async (req, res) => {
       const { nombre, correo, contraseña } = req.body;
 
       // Verificar si el usuario ya existe utilizando el procedimiento almacenado
-      const [existingUser] = await pool.query("CALL logearUsuario(?, ?)", [
+      const [existingUser] = await pool.query("select * from usuarios where correo = ?", [
         correo,
-        contraseña,
       ]);
 
-      if (existingUser.fieldCount > 0) {
+      if (existingUser.length > 0) {
         return res.status(400).json({
           error: "El usuario ya existe",
-          existingUser
         });
       }
       // Hashear la contraseña con bcrypt
@@ -61,12 +59,13 @@ export const loginUser = async (req, res) => {
     const { correo, contraseña } = req.body;
 
     // Verificar las credenciales utilizando el procedimiento almacenado
-    const [existingUser] = await pool.query("CALL logearUsuario(?, ?)", [
-      correo,
-      contraseña,
+    
+    const [existingUser] = await pool.query("SELECT * from usuarios where correo = ?", [
+      correo
     ]);
 
-    if (existingUser.fieldCount > 0) {
+    console.log(contraseña,correo)
+    if (existingUser.length > 0) {
       const isMatch = await bcrypt.compare(
         contraseña,
         existingUser[0].password
